@@ -25,11 +25,21 @@ const movieDB = {
 };
 
 document.querySelector('.promo__adv').remove();
-document.querySelector('.promo__genre').innerHTML = "Драма";
-document.querySelector('.promo').style.backgroundImage="url('../img/bg.jpg') center (center / cover) no-repeat";
+document.querySelector('.promo__genre').textContent = "Драма";
+document.querySelector('.promo__bg').style.backgroundImage="url('img/bg.jpg')";
 
-let list = document.querySelectorAll('.promo__interactive-list');
 
-list.forEach(item => {
-    
+
+const promoList = document.querySelector('.promo__interactive-list');
+
+promoList.innerHTML = "";
+
+movieDB.movies.sort();
+
+movieDB.movies.forEach((films, item) => {
+    promoList.innerHTML += `
+        <li class="promo__interactive-item"> ${item + 1}: ${films}
+            <div class="delete"></div>
+        </li>
+    `;
 });
