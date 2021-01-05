@@ -1,11 +1,5 @@
 /* Задания на урок:
 
-1) Реализовать функционал, что после заполнения формы и нажатия кнопки "Подтвердить" - 
-новый фильм добавляется в список. Страница не должна перезагружаться.
-Новый фильм должен добавляться в movieDB.movies.
-Для получения доступа к значению input - обращаемся к нему как input.value;
-P.S. Здесь есть несколько вариантов решения задачи, принимается любой, но рабочий.
-
 2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
 
 3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
@@ -35,23 +29,43 @@ document.querySelector('.promo__bg').style.backgroundImage="url('img/bg.jpg')";
 
 let promoList = document.querySelector('.promo__interactive-list'),
     formAdd = document.querySelector('.add'),
-    formValue = formAdd.querySelector('.adding__input');
+    formValue = formAdd.querySelector('.adding__input'),
+    // item = document.querySelectorAll('.promo__interactive-item'),
+    itemDelete = document.querySelector('.delete');
 
 
-promoList.innerHTML = "";
+    promoList.innerHTML = "";
 
-movieDB.movies.sort();
+    movieDB.movies.sort();
 
-movieDB.movies.forEach((films, item) => {
-    promoList.innerHTML += `
+    movieDB.movies.forEach((films, item) => {
+        promoList.innerHTML += `
         <li class="promo__interactive-item"> ${item + 1}: ${films}
             <div class="delete"></div>
         </li>
-    `;
-});
+        `;
+    });
 
-formAdd.addEventListener('submit', (e) => {
-    e.preventDefault();
+    formAdd.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-    console.log(formValue.value);
-});
+        movieDB.movies.push(formValue.value);
+
+        promoList.innerHTML = "";
+
+        movieDB.movies.sort();
+
+        movieDB.movies.forEach((films, item) => {
+            promoList.innerHTML += `
+            <li class="promo__interactive-item"> ${item + 1}: ${films}
+                <div class="delete"></div>
+            </li>
+            `;
+        });
+
+        formValue.value = "";
+    });
+
+    itemDelete.addEventListener('click', (e) => {
+        console.log(e.target);
+    });
