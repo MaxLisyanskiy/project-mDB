@@ -1,13 +1,9 @@
 /* Задания на урок:
 
-2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
-
 3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
 
-4) Если в форме стоит галочка "Сделать любимым" - в консоль вывести сообщение: 
-"Добавляем любимый фильм"
 
-5) Фильмы должны быть отсортированы по алфавиту */
+*/
 
 
 "use strict";
@@ -30,8 +26,9 @@ document.querySelector('.promo__bg').style.backgroundImage="url('img/bg.jpg')";
 let promoList = document.querySelector('.promo__interactive-list'),
     formAdd = document.querySelector('.add'),
     formValue = formAdd.querySelector('.adding__input'),
-    // item = document.querySelectorAll('.promo__interactive-item'),
-    itemDelete = document.querySelector('.delete');
+    item = document.querySelectorAll('.promo__interactive-item'),
+    itemDelete = document.querySelectorAll('.delete'),
+    checkbox = formAdd.querySelector('input[type=checkbox]');
 
 
     promoList.innerHTML = "";
@@ -40,11 +37,12 @@ let promoList = document.querySelector('.promo__interactive-list'),
 
     movieDB.movies.forEach((films, item) => {
         promoList.innerHTML += `
-        <li class="promo__interactive-item"> ${item + 1}: ${films}
+        <li class="promo__interactive-item"> ${item + 1}: ${films.substr(0,10) + '...'} 
             <div class="delete"></div>
         </li>
         `;
     });
+
 
     formAdd.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -57,15 +55,24 @@ let promoList = document.querySelector('.promo__interactive-list'),
 
         movieDB.movies.forEach((films, item) => {
             promoList.innerHTML += `
-            <li class="promo__interactive-item"> ${item + 1}: ${films}
+            <li class="promo__interactive-item"> ${item + 1}: ${films.substr(0,10) + '...'} 
                 <div class="delete"></div>
             </li>
             `;
         });
 
+        if(checkbox.checked){
+            console.log('Добавляем любимый фильм');
+            checkbox.checked = false;
+        } 
+
         formValue.value = "";
+
+        console.dir(checkbox);
+
     });
 
-    itemDelete.addEventListener('click', (e) => {
-        console.log(e.target);
+    promoList.addEventListener('click', (e) => {
+        console.log(e.target.parentNode);
+        e.target.parentNode.remove();
     });
